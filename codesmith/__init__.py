@@ -10,11 +10,12 @@
 # from seedling.wrapper import *
 from codesmith.eval import eval_
 from codesmith.python import py
+from codesmith.wrapper import ω
 import sys
 
 def reload():
   """For active development: reloads this module and all submodules"""
-  package_name = __file__.split('\\')[-2] #Get the package name
+  package_name = 'codesmith'
   import importlib
   for k,v in list(sys.modules.items()):
     if k.startswith(package_name): importlib.reload(v)
