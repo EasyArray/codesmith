@@ -1,3 +1,7 @@
+# codesmith/eval.py
+
+"""Provides a specialized evaluation procedure for TSP languages"""
+
 from codesmith.wrapper import ω
 # ast comes with python, generates parse trees
 from ast import *
@@ -20,6 +24,7 @@ statements = (
 )
 
 def do_eval(node, globals, locals, debug=False, shadowed=[]):
+  """Internal function for eval_"""
   #node = AddAst().visit(node)
   node = fix_missing_locations(node)
   if shadowed:
@@ -43,6 +48,7 @@ def do_eval(node, globals, locals, debug=False, shadowed=[]):
   exec(code, globals, locals)
 
 class RemoveOmega(NodeTransformer):
+  """NodeTransformer to remove ω wrappers in an AST"""
   def visit_Call(self, node):
     self.generic_visit(node) #visit children
     if isinstance(node.func, Name) and node.func.id == 'ω': out = node.args[0]
@@ -91,11 +97,14 @@ def freevars(node):
   return free
 
 def get_lambda(node):
+  """Abstraction to allow either Lambda ast nodes themselves or, say, 
+  functions that have an `__ast__` attribute to act as lambdas"""
   if isinstance(node, Lambda): return node
   if hasattr(node, "__ast__"): return get_lambda(node.__ast__)
   return False
 
 def unprintable(x):
+  """True for items not easily printed out in their full form"""
   #print("unprintable?", x, type(x), repr(x))
   if isinstance(x,str): return False
   return (isinstance(x,(type, FunctionType, BuiltinFunctionType)))

@@ -1,13 +1,8 @@
-# import seedling.read
-# import seedling.python
-# import seedling.wrapper
-# import seedling.eval
-# reload(seedling.read)
-# reload(seedling.python)
-# reload(seedling.wrapper)
-# reload(seedling.eval)
-# from seedling.python import *
-# from seedling.wrapper import *
+# codesmith/__init__.py
+
+"""Entry point for the codesmith package, defines the IPython magic functions."""
+
+
 from codesmith.eval import eval_
 from codesmith.python import py
 from codesmith.wrapper import ω

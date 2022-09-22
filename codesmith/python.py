@@ -1,6 +1,11 @@
-# Follows the python grammar very closely: 
-# https://docs.python.org/3/reference/grammar.html
-#
+# codesmith/python.py
+
+"""A codesmith grammar for the python language itself
+
+Follows the offical python grammar very closely: 
+https://docs.python.org/3/reference/grammar.html
+"""
+
 from pyparsing import *
 from codesmith.read import Grammar, BlockOf, ListOf, OUT, common
 
