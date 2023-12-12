@@ -63,7 +63,10 @@ class Rule(Forward):
     if isinstance(syntax, tuple):
       if isinstance(syntax[-1], (FunctionType, BuiltinFunctionType)):
         *syntax, semantics = syntax
-    else: syntax = (syntax,)
+    else: 
+      if syntax.parseAction:
+        semantics = lambda *x: x[0]
+      syntax = (syntax,)
     syntax = list(syntax)
 
     for i,s in enumerate(syntax):
@@ -81,8 +84,7 @@ class Rule(Forward):
       semantics = lambda *toks: reduce(lambda first, second: f(first, *second), toks)
     else: syntax = And(syntax)
 
-    if not syntax.parseAction:
-      syntax.set_parse_action(lambda ts: semantics(*ts))
+    syntax.set_parse_action(lambda ts: semantics(*ts))
     self.clauses.append(syntax)
     self << (Or(self.clauses) if len(self.clauses) > 1 else self.clauses[0])
     return self
