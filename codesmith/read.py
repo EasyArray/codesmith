@@ -81,7 +81,8 @@ class Rule(Forward):
       semantics = lambda *toks: reduce(lambda first, second: f(first, *second), toks)
     else: syntax = And(syntax)
 
-    syntax.set_parse_action(lambda ts: semantics(*ts))
+    if not syntax.parseAction:
+      syntax.set_parse_action(lambda ts: semantics(*ts))
     self.clauses.append(syntax)
     self << (Or(self.clauses) if len(self.clauses) > 1 else self.clauses[0])
     return self
