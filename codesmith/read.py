@@ -60,12 +60,15 @@ class Rule(Forward):
   def __ilshift__(self, syntax):
     """The main way to define a rule uses the augmented left-shift operator <<="""
     semantics = lambda *toks: ' '.join(str(t) for t in toks)
+    try:
+      if syntax.parseAction:
+        semantics = lambda *x: x[0]
+    except: pass
+
     if isinstance(syntax, tuple):
       if isinstance(syntax[-1], (FunctionType, BuiltinFunctionType)):
         *syntax, semantics = syntax
     else: 
-      if syntax.parseAction:
-        semantics = lambda *x: x[0]
       syntax = (syntax,)
     syntax = list(syntax)
 
